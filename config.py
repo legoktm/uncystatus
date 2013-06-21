@@ -8,3 +8,7 @@ consumer_secret = ""
 # under "Your access token")
 access_token = ""
 access_token_secret = ""
+
+
+# Super sekrit channel
+channel = ""
