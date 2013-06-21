@@ -26,8 +26,9 @@ from mtirc import settings
 import tweepy
 
 import config
-auth = tweepy.auth.BasicAuthHandler(config.username, config.password)
-api = tweepy.API(auth)
+auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
+auth.set_access_token(config.access_token, config.access_token_secret)
+
 
 def run(**kw):
     if kw['channel'] == config.channel:
