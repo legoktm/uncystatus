@@ -23,6 +23,7 @@ IN THE SOFTWARE.
 
 from mtirc import bot
 from mtirc import settings
+import ast
 import tweepy
 
 import config
@@ -35,8 +36,13 @@ def run(**kw):
     if kw['channel'] == config.channel:
         if kw['text'].startswith('!tweet '):
             msg = ' '.join(kw['text'].split(' ')[1:])
-            api.update_status(msg)
-            kw['bot'].queue_msg(kw['channel'], 'I tweeted.')
+            try:
+                api.update_status(msg)
+                kw['bot'].queue_msg(kw['channel'], 'I tweeted.')
+            except tweepy.TweepError, e:
+                error = ast.literal_eval(e.reason)
+                kw['bot'].queue_msg(kw['channel'], 'OMG ERROR: {0}'.format(error[0]['message']))
+
 
 configuration = settings.config
 configuration['connections']['card.freenode.net']['channels'] = [config.channel, '##legoktm-bots-chatter']
