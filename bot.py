@@ -36,7 +36,7 @@ def run(**kw):
         if kw['text'].startswith('!tweet '):
             msg = ' '.join(kw['text'].split(' ')[1:])
             api.update_status(msg)
-            kw['bot'].queue_msg('I tweeted.')
+            kw['bot'].queue_msg(kw['channel'], 'I tweeted.')
 
 configuration = settings.config
 configuration['connections']['card.freenode.net']['channels'] = [config.channel, '##legoktm-bots-chatter']
