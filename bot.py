@@ -47,8 +47,8 @@ def run(**kw):
                 error = ast.literal_eval(e.reason)
                 kw['bot'].queue_msg(kw['channel'], 'OMG ERROR: {0}'.format(error[0]['message']))
         if hasattr(config, 'bad'):
-            if kw['sender'].nick in config.bad:
-                for thingy in config.bad[kw['sender'].nick]:
+            if kw['sender'].host in config.bad:
+                for thingy in config.bad[kw['sender'].host]:
                     if thingy in kw['text']:
                         gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
 
