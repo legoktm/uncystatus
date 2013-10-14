@@ -32,6 +32,10 @@ auth.set_access_token(config.access_token, config.access_token_secret)
 api = tweepy.API(auth)
 
 
+def gtfo(botobj, channel, user):
+        botobj.servers[botobj.config['default_network']].send_raw('KICK %s %s' % (channel, user))
+
+
 def run(**kw):
     if kw['channel'] == config.channel:
         if kw['text'].startswith('!tweet '):
@@ -42,6 +46,12 @@ def run(**kw):
             except tweepy.TweepError, e:
                 error = ast.literal_eval(e.reason)
                 kw['bot'].queue_msg(kw['channel'], 'OMG ERROR: {0}'.format(error[0]['message']))
+        if hasattr(config, 'bad'):
+            if kw['sender'].nick in config.bad:
+                for thingy in config.bad[kw['sender'].nick]:
+                    if thingy in kw['text']:
+                        gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
+
 
 
 configuration = settings.config
