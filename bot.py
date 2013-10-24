@@ -50,7 +50,8 @@ def run(**kw):
         if hasattr(config, 'bad'):
             if kw['sender'].host in config.bad:
                 for thingy in config.bad[kw['sender'].host]:
-                    if thingy.lower() in kw['text'].lower():
+                    sanitised = ''.join(c for c in thingy if ord(c) >= 32)
+                    if sanitised.lower() in kw['text'].lower():
                         gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
 
 
