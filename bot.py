@@ -33,7 +33,7 @@ api = tweepy.API(auth)
 
 
 def gtfo(botobj, channel, user):
-        botobj.servers[botobj.config['default_network']].send_raw('KICK %s %s' % (channel, user))
+        botobj.servers[botobj.config['default_network']].send_raw('KICK %s %s Thoughtcrime detected!' % (channel, user))
 
 
 def run(**kw):
