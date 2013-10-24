@@ -37,6 +37,7 @@ def gtfo(botobj, channel, user):
 
 
 def run(**kw):
+    kw['bot'].queue_msg('chanserv', 'op ##en-meta')
     if kw['channel'] == config.channel:
         if kw['text'].startswith('!tweet '):
             msg = ' '.join(kw['text'].split(' ')[1:])
@@ -49,7 +50,7 @@ def run(**kw):
         if hasattr(config, 'bad'):
             if kw['sender'].host in config.bad:
                 for thingy in config.bad[kw['sender'].host]:
-                    if thingy in kw['text']:
+                    if thingy.lower() in kw['text'].lower():
                         gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
 
 
