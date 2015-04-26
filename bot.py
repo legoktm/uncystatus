@@ -51,10 +51,17 @@ def run(**kw):
         if hasattr(config, 'bad'):
             if kw['sender'].host in config.bad:
                 print repr(kw['text'])
-                for thingy in config.bad[kw['sender'].host]:
-                    sanitised = ''.join(c for c in kw['text'] if c.lower() in string.lowercase)
-                    if thingy.lower() in sanitised.lower():
-                        gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
+                sanitised = ''
+                for c in kw['text']:
+                    if c.isalpha():
+                        sanitised += c.lower()
+                    elif ord(c) >= 32:
+                        sanitised += ' '
+                words = sanitised.split()
+                for word in words:
+                    for thingy in config.bad[kw['sender'].host]:
+                        if word.startswith(thingy.lower()):
+                            gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
 
 
 
