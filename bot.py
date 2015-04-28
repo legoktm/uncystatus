@@ -34,7 +34,7 @@ api = tweepy.API(auth)
 
 
 def gtfo(botobj, channel, user):
-        botobj.servers[botobj.config['default_network']].send_raw('KICK %s %s Thoughtcrime detected!' % (channel, user))
+    botobj.servers[botobj.config['default_network']].send_raw('KICK %s %s Nope' % (channel, user))
 
 
 def run(**kw):
@@ -49,8 +49,12 @@ def run(**kw):
                 error = ast.literal_eval(e.reason)
                 kw['bot'].queue_msg(kw['channel'], 'OMG ERROR: {0}'.format(error[0]['message']))
         if hasattr(config, 'bad'):
-            if kw['sender'].host in config.bad:
-                print repr(kw['text'])
+            if kw['sender'].host in config.bad or '*' in config.bad:
+                bad = []
+                if kw['sender'].host in config.bad:
+                    bad += config.bad[kw['sender'].host]
+                if '*' in config.bad:
+                    bad += config.bad['*']
                 sanitised = ''
                 for c in kw['text']:
                     if c.isalpha():
@@ -59,7 +63,7 @@ def run(**kw):
                         sanitised += ' '
                 words = sanitised.split()
                 for word in words:
-                    for thingy in config.bad[kw['sender'].host]:
+                    for thingy in bad:
                         if word.startswith(thingy.lower()):
                             gtfo(kw['bot'], kw['channel'], kw['sender'].nick)
 
