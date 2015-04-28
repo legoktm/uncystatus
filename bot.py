@@ -38,7 +38,6 @@ def gtfo(botobj, channel, user):
 
 
 def run(**kw):
-    kw['bot'].queue_msg('chanserv', 'op ##en-meta')
     if kw['channel'] == config.channel:
         if kw['text'].startswith('!tweet '):
             msg = ' '.join(kw['text'].split(' ')[1:])
